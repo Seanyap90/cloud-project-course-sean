@@ -1,6 +1,23 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
+  - repo: local
+    hooks:
+      # Fails if the OpenAPI schema is not up to date. This ensures that developers
+      # always re-generate and commit the latest openapi.json file before they can pass the build.
+      - id: generate-and-diff-openapi-schema
+        name: Generate and Assert that OpenAPI Schema is up to date
+        entry: >-
+          python ./scripts/generate-openapi.py generate-and-diff
+            --existing-spec ./openapi.json
+            --output-spec ./openapi.json
+            --fail-on-diff
+        language: system
+        # run this hook if openapi.json or any of the src/*.py files change (since those files generate openapi.json)
+        files: ^openapi\.json$|^src/.*\.py$
+        pass_filenames: false
+        always_run: false
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -11,6 +28,7 @@ repos:
         args: [--markdown-linebreak-ext=md]
       # Makes sure files end in a newline and only a newline;
       - id: end-of-file-fixer
+        exclude: ^openapi\.json$
       # Attempts to load all TOML files to verify syntax.
       - id: check-toml
       # Attempts to load all yaml files to verify syntax; unsafe: only check syntax, do not load yaml
