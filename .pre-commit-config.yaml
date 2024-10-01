@@ -18,6 +18,46 @@ repos:
         pass_filenames: false
         always_run: false
 
+      # If any FastAPI code has changed, check that it does not introduce any breaking API
+      # changes compared to the openapi.json on the main branch.
+      - id: diff-openapi-schema-against-main
+        name: Catch breaking API schema changes compared to main branch
+        entry: |
+          bash -c '
+          set -ex;
+
+          # generate the OpenAPI spec from the latest fastapi app code;
+          python ./scripts/generate-openapi.py generate --output-spec openapi.json;
+
+          # Determine which ref to use: remote if available, otherwise local
+          if git show refs/heads/main:openapi.json > /dev/null 2>&1; then
+            OPENAPI_REF="refs/heads/main:openapi.json"
+          else
+            OPENAPI_REF="origin/main:openapi.json"
+          fi
+
+          # Load the OpenAPI schema from the determined ref
+          git show $OPENAPI_REF > ./openapi-main.json
+
+          # set the openapi-main.json to be deleted when this hook finishes;
+          trap "rm openapi-main.json" EXIT;
+
+          # compare the recently generated OpenAPI schema to the one in main and fail if ;
+          # the recently generated one would introduce breaking changes;
+          docker run --rm \
+            --volume $PWD:/data \
+            tufin/oasdiff changelog \
+              /data/openapi-main.json \
+              /data/openapi.json \
+              --fail-on ERR
+          '
+        language: system
+        # run this hook if openapi.json or any of the src/*.py files change (since those files generate openapi.json)
+        files: ^openapi\.json$|^src/.*\.py$
+        pass_filenames: false
+        always_run: false
+        verbose: true
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:

@@ -5,11 +5,11 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/v1/file/{file_path}": {
+    "/v1/files/{file_path}": {
       "put": {
         "summary": "Upload File",
         "description": "Upload a file.",
-        "operationId": "upload_file_v1_file__file_path__put",
+        "operationId": "upload_file_v1_files__file_path__put",
         "parameters": [
           {
             "name": "file_path",
@@ -26,7 +26,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Body_upload_file_v1_file__file_path__put"
+                "$ref": "#/components/schemas/Body_upload_file_v1_files__file_path__put"
               }
             }
           }
@@ -53,78 +53,7 @@
             }
           }
         }
-      }
-    },
-    "/v1/files": {
-      "get": {
-        "summary": "List Files",
-        "description": "List files with pagination.",
-        "operationId": "list_files_v1_files_get",
-        "parameters": [
-          {
-            "name": "page_size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 100,
-              "minimum": 10,
-              "default": 10,
-              "title": "Page Size"
-            }
-          },
-          {
-            "name": "directory",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "Directory"
-            }
-          },
-          {
-            "name": "page_token",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Page Token"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetFilesResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/files/{file_path}": {
+      },
       "head": {
         "summary": "Get File Metadata",
         "description": "Retrieve file metadata.\n\nNote: by convention, HEAD requests MUST NOT return a body in the response.",
@@ -233,11 +162,80 @@
           }
         }
       }
+    },
+    "/v1/files": {
+      "get": {
+        "summary": "List Files",
+        "description": "List files with pagination.",
+        "operationId": "list_files_v1_files_get",
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 10,
+              "default": 10,
+              "title": "Page Size"
+            }
+          },
+          {
+            "name": "directory",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Directory"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFilesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "Body_upload_file_v1_file__file_path__put": {
+      "Body_upload_file_v1_files__file_path__put": {
         "properties": {
           "file": {
             "type": "string",
@@ -249,13 +247,13 @@
         "required": [
           "file"
         ],
-        "title": "Body_upload_file_v1_file__file_path__put"
+        "title": "Body_upload_file_v1_files__file_path__put"
       },
       "FileMetadata": {
         "properties": {
-          "file_path2": {
+          "file_path": {
             "type": "string",
-            "title": "File Path2"
+            "title": "File Path"
           },
           "last_modified": {
             "type": "string",
@@ -269,7 +267,7 @@
         },
         "type": "object",
         "required": [
-          "file_path2",
+          "file_path",
           "last_modified",
           "size_bytes"
         ],
