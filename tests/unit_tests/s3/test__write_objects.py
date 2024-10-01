@@ -12,5 +12,3 @@ def test_upload_s3_object(mocked_aws: None):
     upload_s3_object(TEST_BUCKET_NAME, "testfile.txt", file_content)
     response = s3_client.get_object(Bucket=TEST_BUCKET_NAME, Key="testfile.txt")
     assert response["Body"].read() == file_content
-
-

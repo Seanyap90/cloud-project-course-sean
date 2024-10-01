@@ -111,4 +111,3 @@ def fetch_s3_objects_metadata(
     next_page_token: str | None = response.get("NextContinuationToken")
 
     return files, next_page_token
-

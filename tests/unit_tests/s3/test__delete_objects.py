@@ -8,7 +8,7 @@ from files_api.s3.write_objects import upload_s3_object
 from tests.consts import TEST_BUCKET_NAME
 
 
-def test_delete_existing_s3_object(mocked_aws: None):
+def test_delete_existing_s3_object(mocked_aws: None):  # pylint: disable=unused-argument
     s3_client = boto3.client("s3")
     s3_client.put_object(Bucket=TEST_BUCKET_NAME, Key="testfile.txt", Body="test content")
     delete_s3_object(TEST_BUCKET_NAME, "testfile.txt")
