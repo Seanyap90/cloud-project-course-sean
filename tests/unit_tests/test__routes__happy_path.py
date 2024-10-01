@@ -1,7 +1,6 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-
 # Constants for testing
 TEST_FILE_PATH = "test.txt"
 TEST_FILE_CONTENT = b"Hello, world!"
@@ -46,7 +45,6 @@ def test_list_files_with_pagination(client: TestClient):
             f"/v1/files/file{i}.txt",
             files={"file": (f"file{i}.txt", TEST_FILE_CONTENT, TEST_FILE_CONTENT_TYPE)},
         )
-    print("IN A")
     # List files with page size 10
     response = client.get("/v1/files?page_size=10")
     assert response.status_code == status.HTTP_200_OK
@@ -96,3 +94,5 @@ def test_delete_file(client: TestClient):
     # the file should not be found if it was deleted
     response = client.get(f"/v1/files/{TEST_FILE_PATH}")
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    # update

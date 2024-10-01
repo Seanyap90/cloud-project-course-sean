@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 jobs:
-  
+
   check-version-txt:
     runs-on: ubuntu-latest
     steps:
@@ -33,13 +33,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.8
+        with:
+          # we need to fetch all branches/history so we can grab openapi.json out of the main branch
+          fetch-depth: 0
+      # we need docker to run the oasdiff CLI pre-commit hook
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.3.0
+      - name: Set up Python 3.10.14
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
-      - name: Install pre-commit
+          python-version: "3.10.14"
+      # we need our package dependencies in order for the openapi hooks to
+      # generate our openapi.json file and detect breaking changes
+      - name: Install pre-commit and local hook dependencies
         run: |
-          pip install pre-commit
+          pip install ./ pre-commit python-multipart
       - name: Lint, Format, and other static code quality checks
         run: |
           /bin/bash -x run.sh lint:ci
@@ -48,10 +56,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.8
+      - name: Set up Python 3.10.14
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
+          python-version: "3.10.14"
       - name: Install build CLI
         run: |
           pip install build
@@ -70,10 +78,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.8
+      - name: Set up Python 3.10.14
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
+          python-version: "3.10.14"
       - name: Download wheel and sdist
         uses: actions/download-artifact@v3
         with:
@@ -81,8 +89,10 @@ jobs:
           path: ./dist/
       - name: Install test dependencies
         run: |
-          pip install pytest pytest-cov ./dist/*.whl
-      - name: Lint, Format, and other static code quality checks
+          # install our package's wheel with its test dependencies
+          WHEEL_FPATH=$(ls ./dist/*.whl)
+          pip install "${WHEEL_FPATH}[test]"
+      - name: Execute tests
         run: |
           /bin/bash -x run.sh test:ci
 
@@ -97,10 +107,10 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.8
+      - name: Set up Python 3.10.14
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
+          python-version: "3.10.14"
       - name: Download wheel and sdist
         uses: actions/download-artifact@v3
         with:
