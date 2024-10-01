@@ -94,3 +94,4 @@ def test_delete_file(client: TestClient):
     # the file should not be found if it was deleted
     response = client.get(f"/v1/files/{TEST_FILE_PATH}")
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
