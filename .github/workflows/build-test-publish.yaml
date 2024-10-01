@@ -47,7 +47,7 @@ jobs:
       # generate our openapi.json file and detect breaking changes
       - name: Install pre-commit and local hook dependencies
         run: |
-          pip install ./ pre-commit
+          pip install ./ pre-commit python-multipart
       - name: Lint, Format, and other static code quality checks
         run: |
           /bin/bash -x run.sh lint:ci

@@ -22,7 +22,7 @@ version = { file = "version.txt" }
 
 # optional dependencies can be installed with square brackets, e.g. `pip install my-package[test,static-code-qa]`
 [project.optional-dependencies]
-test = ["pytest", "pytest-cov", "moto[s3]"]
+test = ["pytest", "pytest-cov", "moto[s3]", "httpx"]
 release = ["build", "twine"]
 static-code-qa = [
     "pre-commit",
