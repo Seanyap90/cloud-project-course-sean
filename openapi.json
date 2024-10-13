@@ -7,6 +7,9 @@
   "paths": {
     "/v1/files/{file_path}": {
       "put": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Upload File",
         "description": "Upload a file.",
         "operationId": "upload_file_v1_files__file_path__put",
@@ -55,6 +58,9 @@
         }
       },
       "head": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Get File Metadata",
         "description": "Retrieve file metadata.\n\nNote: by convention, HEAD requests MUST NOT return a body in the response.",
         "operationId": "get_file_metadata_v1_files__file_path__head",
@@ -91,6 +97,9 @@
         }
       },
       "get": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Get File",
         "description": "Retrieve a file.",
         "operationId": "get_file_v1_files__file_path__get",
@@ -127,6 +136,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Files"
+        ],
         "summary": "Delete File",
         "description": "Delete a file.\n\nNOTE: DELETE requests MUST NOT return a body in the response.",
         "operationId": "delete_file_v1_files__file_path__delete",
@@ -165,6 +177,9 @@
     },
     "/v1/files": {
       "get": {
+        "tags": [
+          "Files"
+        ],
         "summary": "List Files",
         "description": "List files with pagination.",
         "operationId": "list_files_v1_files_get",

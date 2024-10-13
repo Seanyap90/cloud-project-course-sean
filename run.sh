@@ -20,6 +20,56 @@ function install {
     python -m pip install --editable "$THIS_DIR/[dev]"
 }
 
+function install-generated-sdk {
+    # setting editable_mode=strict fixes an issue with autocompletion
+    # in VS Code when installing editable packages. See:
+    # https://github.com/microsoft/pylance-release/issues/3473
+    python -m pip install --editable "$THIS_DIR/files-api-sdk" \
+        --config-settings editable_mode=strict
+}
+
+function generate-client-library {
+    docker run --rm \
+        -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+        --generator-name python-pydantic-v1 \
+        --input-spec /local/openapi.json \
+        --output /local/files-api-sdk \
+        --package-name files_api_sdk
+}
+
+function run {
+    AWS_PROFILE=cloud-course \
+    S3_BUCKET_NAME="some-bucket" \
+        uvicorn 'files_api.main:create_app' --reload
+}
+
+# start the FastAPI app, pointed at a mocked aws endpoint
+function run-mock {
+    set +e
+
+    # Start moto.server in the background on localhost:5000
+    python -m moto.server -p 5000 &
+    MOTO_PID=$!
+
+    # point the AWS CLI and boto3 to the mocked AWS server using mocked credentials
+    export AWS_ENDPOINT_URL="http://localhost:5000"
+    export AWS_SECRET_ACCESS_KEY="mock"
+    export AWS_ACCESS_KEY_ID="mock"
+    export S3_BUCKET_NAME="some-bucket"
+
+    # create a bucket called "some-bucket" using the mocked aws server
+    aws s3 mb "s3://$S3_BUCKET_NAME"
+
+    # Trap EXIT signal to kill the moto.server process when uvicorn stops
+    trap 'kill $MOTO_PID' EXIT
+
+    # Set AWS endpoint URL and start FastAPI app with uvicorn in the foreground
+    uvicorn files_api.main:create_app --reload
+
+    # Wait for the moto.server process to finish (this is optional if you want to keep it running)
+    wait $MOTO_PID
+}
+
 # run linting, formatting, and other static code quality tools
 function lint {
     pre-commit run --all-files
