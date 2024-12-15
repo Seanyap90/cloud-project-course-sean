@@ -4,9 +4,9 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file_path** | **str** |  | 
-**last_modified** | **datetime** |  | 
-**size_bytes** | **int** |  | 
+**file_path** | **str** |  |
+**last_modified** | **datetime** |  |
+**size_bytes** | **int** |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ file_metadata_dict = file_metadata_instance.to_dict()
 file_metadata_from_dict = FileMetadata.from_dict(file_metadata_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

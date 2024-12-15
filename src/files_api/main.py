@@ -11,6 +11,7 @@ from files_api.errors import (
 from files_api.routes import ROUTER
 from files_api.settings import Settings
 
+
 def custom_generate_unique_id(route: APIRoute):
     """
     Generate prettier `operationId`s in the OpenAPI schema.

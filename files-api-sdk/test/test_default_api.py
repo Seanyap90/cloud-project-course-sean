@@ -31,36 +31,31 @@ class TestDefaultApi(unittest.TestCase):
 
         Delete File  # noqa: E501
         """
-        pass
 
     def test_get_file_metadata_v1_files_file_path_head(self) -> None:
         """Test case for get_file_metadata_v1_files_file_path_head
 
         Get File Metadata  # noqa: E501
         """
-        pass
 
     def test_get_file_v1_files_file_path_get(self) -> None:
         """Test case for get_file_v1_files_file_path_get
 
         Get File  # noqa: E501
         """
-        pass
 
     def test_list_files_v1_files_get(self) -> None:
         """Test case for list_files_v1_files_get
 
         List Files  # noqa: E501
         """
-        pass
 
     def test_upload_file_v1_file_file_path_put(self) -> None:
         """Test case for upload_file_v1_file_file_path_put
 
         Upload File  # noqa: E501
         """
-        pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

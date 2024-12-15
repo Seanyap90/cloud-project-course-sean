@@ -13,18 +13,25 @@
 
 
 from __future__ import annotations
+
+import json
 import pprint
 import re  # noqa: F401
-import json
-
 from datetime import datetime
 
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    Field,
+    StrictInt,
+    StrictStr,
+)
+
 
 class FileMetadata(BaseModel):
     """
     FileMetadata
     """
+
     file_path2: StrictStr = Field(...)
     last_modified: datetime = Field(...)
     size_bytes: StrictInt = Field(...)
@@ -32,6 +39,7 @@ class FileMetadata(BaseModel):
 
     class Config:
         """Pydantic configuration"""
+
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -50,10 +58,7 @@ class FileMetadata(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         return _dict
 
     @classmethod
@@ -65,11 +70,11 @@ class FileMetadata(BaseModel):
         if not isinstance(obj, dict):
             return FileMetadata.parse_obj(obj)
 
-        _obj = FileMetadata.parse_obj({
-            "file_path2": obj.get("file_path2"),
-            "last_modified": obj.get("last_modified"),
-            "size_bytes": obj.get("size_bytes")
-        })
+        _obj = FileMetadata.parse_obj(
+            {
+                "file_path2": obj.get("file_path2"),
+                "last_modified": obj.get("last_modified"),
+                "size_bytes": obj.get("size_bytes"),
+            }
+        )
         return _obj
-
-

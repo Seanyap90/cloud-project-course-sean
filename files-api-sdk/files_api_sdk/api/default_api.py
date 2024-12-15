@@ -13,23 +13,24 @@
 
 
 import re  # noqa: F401
-import io
-import warnings
-
-from pydantic import validate_arguments, ValidationError
-
-from pydantic import StrictBytes, StrictStr, conint
-
-from typing import Any, Optional, Union
-
-from files_api_sdk.models.get_files_response import GetFilesResponse
-from files_api_sdk.models.put_file_response import PutFileResponse
+from typing import (
+    Optional,
+    Union,
+)
 
 from files_api_sdk.api_client import ApiClient
 from files_api_sdk.api_response import ApiResponse
 from files_api_sdk.exceptions import (  # noqa: F401
     ApiTypeError,
-    ApiValueError
+    ApiValueError,
+)
+from files_api_sdk.models.get_files_response import GetFilesResponse
+from files_api_sdk.models.put_file_response import PutFileResponse
+from pydantic import (
+    StrictBytes,
+    StrictStr,
+    conint,
+    validate_arguments,
 )
 
 
@@ -46,7 +47,7 @@ class DefaultApi:
         self.api_client = api_client
 
     @validate_arguments
-    def delete_file_v1_files_file_path_delete(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
+    def delete_file_v1_files_file_path_delete(self, file_path: StrictStr, **kwargs) -> object:  # noqa: E501
         """Delete File  # noqa: E501
 
         Delete a file.  NOTE: DELETE requests MUST NOT return a body in the response.  # noqa: E501
@@ -69,14 +70,16 @@ class DefaultApi:
                  returns the request thread.
         :rtype: object
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
+        kwargs["_return_http_data_only"] = True
+        if "_preload_content" in kwargs:
             message = "Error! Please call the delete_file_v1_files_file_path_delete_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
         return self.delete_file_v1_files_file_path_delete_with_http_info(file_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_file_v1_files_file_path_delete_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def delete_file_v1_files_file_path_delete_with_http_info(
+        self, file_path: StrictStr, **kwargs
+    ) -> ApiResponse:  # noqa: E501
         """Delete File  # noqa: E501
 
         Delete a file.  NOTE: DELETE requests MUST NOT return a body in the response.  # noqa: E501
@@ -115,62 +118,58 @@ class DefaultApi:
 
         _params = locals()
 
-        _all_params = [
-            'file_path'
-        ]
+        _all_params = ["file_path"]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                "async_req",
+                "_return_http_data_only",
+                "_preload_content",
+                "_request_timeout",
+                "_request_auth",
+                "_content_type",
+                "_headers",
             ]
         )
 
         # validate the arguments
-        for _key, _val in _params['kwargs'].items():
+        for _key, _val in _params["kwargs"].items():
             if _key not in _all_params:
                 raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method delete_file_v1_files_file_path_delete" % _key
+                    "Got an unexpected keyword argument '%s'" " to method delete_file_v1_files_file_path_delete" % _key
                 )
             _params[_key] = _val
-        del _params['kwargs']
+        del _params["kwargs"]
 
         _collection_formats = {}
 
         # process the path parameters
         _path_params = {}
-        if _params['file_path'] is not None:
-            _path_params['file_path'] = _params['file_path']
-
+        if _params["file_path"] is not None:
+            _path_params["file_path"] = _params["file_path"]
 
         # process the query parameters
         _query_params = []
         # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
+        _header_params = dict(_params.get("_headers", {}))
         # process the form parameters
         _form_params = []
         _files = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        _header_params["Accept"] = self.api_client.select_header_accept(["application/json"])  # noqa: E501
 
         # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "object",
-            '422': "HTTPValidationError",
+            "200": "object",
+            "422": "HTTPValidationError",
         }
 
         return self.api_client.call_api(
-            '/v1/files/{file_path}', 'DELETE',
+            "/v1/files/{file_path}",
+            "DELETE",
             _path_params,
             _query_params,
             _header_params,
@@ -179,15 +178,16 @@ class DefaultApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
+            async_req=_params.get("async_req"),
+            _return_http_data_only=_params.get("_return_http_data_only"),  # noqa: E501
+            _preload_content=_params.get("_preload_content", True),
+            _request_timeout=_params.get("_request_timeout"),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _request_auth=_params.get("_request_auth"),
+        )
 
     @validate_arguments
-    def get_file_metadata_v1_files_file_path_head(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
+    def get_file_metadata_v1_files_file_path_head(self, file_path: StrictStr, **kwargs) -> object:  # noqa: E501
         """Get File Metadata  # noqa: E501
 
         Retrieve file metadata.  Note: by convention, HEAD requests MUST NOT return a body in the response.  # noqa: E501
@@ -210,14 +210,16 @@ class DefaultApi:
                  returns the request thread.
         :rtype: object
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
+        kwargs["_return_http_data_only"] = True
+        if "_preload_content" in kwargs:
             message = "Error! Please call the get_file_metadata_v1_files_file_path_head_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
         return self.get_file_metadata_v1_files_file_path_head_with_http_info(file_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_file_metadata_v1_files_file_path_head_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_file_metadata_v1_files_file_path_head_with_http_info(
+        self, file_path: StrictStr, **kwargs
+    ) -> ApiResponse:  # noqa: E501
         """Get File Metadata  # noqa: E501
 
         Retrieve file metadata.  Note: by convention, HEAD requests MUST NOT return a body in the response.  # noqa: E501
@@ -256,62 +258,59 @@ class DefaultApi:
 
         _params = locals()
 
-        _all_params = [
-            'file_path'
-        ]
+        _all_params = ["file_path"]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                "async_req",
+                "_return_http_data_only",
+                "_preload_content",
+                "_request_timeout",
+                "_request_auth",
+                "_content_type",
+                "_headers",
             ]
         )
 
         # validate the arguments
-        for _key, _val in _params['kwargs'].items():
+        for _key, _val in _params["kwargs"].items():
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_file_metadata_v1_files_file_path_head" % _key
                 )
             _params[_key] = _val
-        del _params['kwargs']
+        del _params["kwargs"]
 
         _collection_formats = {}
 
         # process the path parameters
         _path_params = {}
-        if _params['file_path'] is not None:
-            _path_params['file_path'] = _params['file_path']
-
+        if _params["file_path"] is not None:
+            _path_params["file_path"] = _params["file_path"]
 
         # process the query parameters
         _query_params = []
         # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
+        _header_params = dict(_params.get("_headers", {}))
         # process the form parameters
         _form_params = []
         _files = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        _header_params["Accept"] = self.api_client.select_header_accept(["application/json"])  # noqa: E501
 
         # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "object",
-            '422': "HTTPValidationError",
+            "200": "object",
+            "422": "HTTPValidationError",
         }
 
         return self.api_client.call_api(
-            '/v1/files/{file_path}', 'HEAD',
+            "/v1/files/{file_path}",
+            "HEAD",
             _path_params,
             _query_params,
             _header_params,
@@ -320,15 +319,16 @@ class DefaultApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
+            async_req=_params.get("async_req"),
+            _return_http_data_only=_params.get("_return_http_data_only"),  # noqa: E501
+            _preload_content=_params.get("_preload_content", True),
+            _request_timeout=_params.get("_request_timeout"),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _request_auth=_params.get("_request_auth"),
+        )
 
     @validate_arguments
-    def get_file_v1_files_file_path_get(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
+    def get_file_v1_files_file_path_get(self, file_path: StrictStr, **kwargs) -> object:  # noqa: E501
         """Get File  # noqa: E501
 
         Retrieve a file.  # noqa: E501
@@ -351,14 +351,16 @@ class DefaultApi:
                  returns the request thread.
         :rtype: object
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
+        kwargs["_return_http_data_only"] = True
+        if "_preload_content" in kwargs:
             message = "Error! Please call the get_file_v1_files_file_path_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
         return self.get_file_v1_files_file_path_get_with_http_info(file_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_file_v1_files_file_path_get_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def get_file_v1_files_file_path_get_with_http_info(
+        self, file_path: StrictStr, **kwargs
+    ) -> ApiResponse:  # noqa: E501
         """Get File  # noqa: E501
 
         Retrieve a file.  # noqa: E501
@@ -397,62 +399,58 @@ class DefaultApi:
 
         _params = locals()
 
-        _all_params = [
-            'file_path'
-        ]
+        _all_params = ["file_path"]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                "async_req",
+                "_return_http_data_only",
+                "_preload_content",
+                "_request_timeout",
+                "_request_auth",
+                "_content_type",
+                "_headers",
             ]
         )
 
         # validate the arguments
-        for _key, _val in _params['kwargs'].items():
+        for _key, _val in _params["kwargs"].items():
             if _key not in _all_params:
                 raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_file_v1_files_file_path_get" % _key
+                    "Got an unexpected keyword argument '%s'" " to method get_file_v1_files_file_path_get" % _key
                 )
             _params[_key] = _val
-        del _params['kwargs']
+        del _params["kwargs"]
 
         _collection_formats = {}
 
         # process the path parameters
         _path_params = {}
-        if _params['file_path'] is not None:
-            _path_params['file_path'] = _params['file_path']
-
+        if _params["file_path"] is not None:
+            _path_params["file_path"] = _params["file_path"]
 
         # process the query parameters
         _query_params = []
         # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
+        _header_params = dict(_params.get("_headers", {}))
         # process the form parameters
         _form_params = []
         _files = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        _header_params["Accept"] = self.api_client.select_header_accept(["application/json"])  # noqa: E501
 
         # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "object",
-            '422': "HTTPValidationError",
+            "200": "object",
+            "422": "HTTPValidationError",
         }
 
         return self.api_client.call_api(
-            '/v1/files/{file_path}', 'GET',
+            "/v1/files/{file_path}",
+            "GET",
             _path_params,
             _query_params,
             _header_params,
@@ -461,15 +459,22 @@ class DefaultApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
+            async_req=_params.get("async_req"),
+            _return_http_data_only=_params.get("_return_http_data_only"),  # noqa: E501
+            _preload_content=_params.get("_preload_content", True),
+            _request_timeout=_params.get("_request_timeout"),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _request_auth=_params.get("_request_auth"),
+        )
 
     @validate_arguments
-    def list_files_v1_files_get(self, page_size : Optional[conint(strict=True, le=100, ge=10)] = None, directory : Optional[StrictStr] = None, page_token : Optional[StrictStr] = None, **kwargs) -> GetFilesResponse:  # noqa: E501
+    def list_files_v1_files_get(
+        self,
+        page_size: Optional[conint(strict=True, le=100, ge=10)] = None,
+        directory: Optional[StrictStr] = None,
+        page_token: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> GetFilesResponse:  # noqa: E501
         """List Files  # noqa: E501
 
         List files with pagination.  # noqa: E501
@@ -496,14 +501,20 @@ class DefaultApi:
                  returns the request thread.
         :rtype: GetFilesResponse
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
+        kwargs["_return_http_data_only"] = True
+        if "_preload_content" in kwargs:
             message = "Error! Please call the list_files_v1_files_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
         return self.list_files_v1_files_get_with_http_info(page_size, directory, page_token, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def list_files_v1_files_get_with_http_info(self, page_size : Optional[conint(strict=True, le=100, ge=10)] = None, directory : Optional[StrictStr] = None, page_token : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def list_files_v1_files_get_with_http_info(
+        self,
+        page_size: Optional[conint(strict=True, le=100, ge=10)] = None,
+        directory: Optional[StrictStr] = None,
+        page_token: Optional[StrictStr] = None,
+        **kwargs,
+    ) -> ApiResponse:  # noqa: E501
         """List Files  # noqa: E501
 
         List files with pagination.  # noqa: E501
@@ -546,32 +557,27 @@ class DefaultApi:
 
         _params = locals()
 
-        _all_params = [
-            'page_size',
-            'directory',
-            'page_token'
-        ]
+        _all_params = ["page_size", "directory", "page_token"]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                "async_req",
+                "_return_http_data_only",
+                "_preload_content",
+                "_request_timeout",
+                "_request_auth",
+                "_content_type",
+                "_headers",
             ]
         )
 
         # validate the arguments
-        for _key, _val in _params['kwargs'].items():
+        for _key, _val in _params["kwargs"].items():
             if _key not in _all_params:
                 raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method list_files_v1_files_get" % _key
+                    "Got an unexpected keyword argument '%s'" " to method list_files_v1_files_get" % _key
                 )
             _params[_key] = _val
-        del _params['kwargs']
+        del _params["kwargs"]
 
         _collection_formats = {}
 
@@ -580,36 +586,36 @@ class DefaultApi:
 
         # process the query parameters
         _query_params = []
-        if _params.get('page_size') is not None:  # noqa: E501
-            _query_params.append(('page_size', _params['page_size']))
+        if _params.get("page_size") is not None:  # noqa: E501
+            _query_params.append(("page_size", _params["page_size"]))
 
-        if _params.get('directory') is not None:  # noqa: E501
-            _query_params.append(('directory', _params['directory']))
+        if _params.get("directory") is not None:  # noqa: E501
+            _query_params.append(("directory", _params["directory"]))
 
-        if _params.get('page_token') is not None:  # noqa: E501
-            _query_params.append(('page_token', _params['page_token']))
+        if _params.get("page_token") is not None:  # noqa: E501
+            _query_params.append(("page_token", _params["page_token"]))
 
         # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
+        _header_params = dict(_params.get("_headers", {}))
         # process the form parameters
         _form_params = []
         _files = {}
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        _header_params["Accept"] = self.api_client.select_header_accept(["application/json"])  # noqa: E501
 
         # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "GetFilesResponse",
-            '422': "HTTPValidationError",
+            "200": "GetFilesResponse",
+            "422": "HTTPValidationError",
         }
 
         return self.api_client.call_api(
-            '/v1/files', 'GET',
+            "/v1/files",
+            "GET",
             _path_params,
             _query_params,
             _header_params,
@@ -618,15 +624,18 @@ class DefaultApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
+            async_req=_params.get("async_req"),
+            _return_http_data_only=_params.get("_return_http_data_only"),  # noqa: E501
+            _preload_content=_params.get("_preload_content", True),
+            _request_timeout=_params.get("_request_timeout"),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _request_auth=_params.get("_request_auth"),
+        )
 
     @validate_arguments
-    def upload_file_v1_files_file_path_put(self, file_path : StrictStr, file : Union[StrictBytes, StrictStr], **kwargs) -> PutFileResponse:  # noqa: E501
+    def upload_file_v1_files_file_path_put(
+        self, file_path: StrictStr, file: Union[StrictBytes, StrictStr], **kwargs
+    ) -> PutFileResponse:  # noqa: E501
         """Upload File  # noqa: E501
 
         Upload a file.  # noqa: E501
@@ -651,14 +660,16 @@ class DefaultApi:
                  returns the request thread.
         :rtype: PutFileResponse
         """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
+        kwargs["_return_http_data_only"] = True
+        if "_preload_content" in kwargs:
             message = "Error! Please call the upload_file_v1_files_file_path_put_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
         return self.upload_file_v1_files_file_path_put_with_http_info(file_path, file, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def upload_file_v1_files_file_path_put_with_http_info(self, file_path : StrictStr, file : Union[StrictBytes, StrictStr], **kwargs) -> ApiResponse:  # noqa: E501
+    def upload_file_v1_files_file_path_put_with_http_info(
+        self, file_path: StrictStr, file: Union[StrictBytes, StrictStr], **kwargs
+    ) -> ApiResponse:  # noqa: E501
         """Upload File  # noqa: E501
 
         Upload a file.  # noqa: E501
@@ -699,73 +710,68 @@ class DefaultApi:
 
         _params = locals()
 
-        _all_params = [
-            'file_path',
-            'file'
-        ]
+        _all_params = ["file_path", "file"]
         _all_params.extend(
             [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
+                "async_req",
+                "_return_http_data_only",
+                "_preload_content",
+                "_request_timeout",
+                "_request_auth",
+                "_content_type",
+                "_headers",
             ]
         )
 
         # validate the arguments
-        for _key, _val in _params['kwargs'].items():
+        for _key, _val in _params["kwargs"].items():
             if _key not in _all_params:
                 raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method upload_file_v1_files_file_path_put" % _key
+                    "Got an unexpected keyword argument '%s'" " to method upload_file_v1_files_file_path_put" % _key
                 )
             _params[_key] = _val
-        del _params['kwargs']
+        del _params["kwargs"]
 
         _collection_formats = {}
 
         # process the path parameters
         _path_params = {}
-        if _params['file_path'] is not None:
-            _path_params['file_path'] = _params['file_path']
-
+        if _params["file_path"] is not None:
+            _path_params["file_path"] = _params["file_path"]
 
         # process the query parameters
         _query_params = []
         # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
+        _header_params = dict(_params.get("_headers", {}))
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['file'] is not None:
-            _files['file'] = _params['file']
+        if _params["file"] is not None:
+            _files["file"] = _params["file"]
 
         # process the body parameter
         _body_params = None
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+        _header_params["Accept"] = self.api_client.select_header_accept(["application/json"])  # noqa: E501
 
         # set the HTTP header `Content-Type`
-        _content_types_list = _params.get('_content_type',
-            self.api_client.select_header_content_type(
-                ['multipart/form-data']))
+        _content_types_list = _params.get(
+            "_content_type", self.api_client.select_header_content_type(["multipart/form-data"])
+        )
         if _content_types_list:
-                _header_params['Content-Type'] = _content_types_list
+            _header_params["Content-Type"] = _content_types_list
 
         # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "PutFileResponse",
-            '422': "HTTPValidationError",
+            "200": "PutFileResponse",
+            "422": "HTTPValidationError",
         }
 
         return self.api_client.call_api(
-            '/v1/files/{file_path}', 'PUT',
+            "/v1/files/{file_path}",
+            "PUT",
             _path_params,
             _query_params,
             _header_params,
@@ -774,9 +780,10 @@ class DefaultApi:
             files=_files,
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
+            async_req=_params.get("async_req"),
+            _return_http_data_only=_params.get("_return_http_data_only"),  # noqa: E501
+            _preload_content=_params.get("_preload_content", True),
+            _request_timeout=_params.get("_request_timeout"),
             collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
+            _request_auth=_params.get("_request_auth"),
+        )

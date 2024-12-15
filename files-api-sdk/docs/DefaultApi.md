@@ -38,7 +38,7 @@ configuration = files_api_sdk.Configuration(
 with files_api_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = files_api_sdk.DefaultApi(api_client)
-    file_path = 'file_path_example' # str | 
+    file_path = 'file_path_example' # str |
 
     try:
         # Delete File
@@ -55,7 +55,7 @@ with files_api_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_path** | **str**|  | 
+ **file_path** | **str**|  |
 
 ### Return type
 
@@ -105,7 +105,7 @@ configuration = files_api_sdk.Configuration(
 with files_api_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = files_api_sdk.DefaultApi(api_client)
-    file_path = 'file_path_example' # str | 
+    file_path = 'file_path_example' # str |
 
     try:
         # Get File Metadata
@@ -122,7 +122,7 @@ with files_api_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_path** | **str**|  | 
+ **file_path** | **str**|  |
 
 ### Return type
 
@@ -172,7 +172,7 @@ configuration = files_api_sdk.Configuration(
 with files_api_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = files_api_sdk.DefaultApi(api_client)
-    file_path = 'file_path_example' # str | 
+    file_path = 'file_path_example' # str |
 
     try:
         # Get File
@@ -189,7 +189,7 @@ with files_api_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_path** | **str**|  | 
+ **file_path** | **str**|  |
 
 ### Return type
 
@@ -261,7 +261,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page_size** | **int**|  | [optional] [default to 10]
  **directory** | **str**|  | [optional] [default to &#39;&#39;]
- **page_token** | **str**|  | [optional] 
+ **page_token** | **str**|  | [optional]
 
 ### Return type
 
@@ -312,8 +312,8 @@ configuration = files_api_sdk.Configuration(
 with files_api_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = files_api_sdk.DefaultApi(api_client)
-    file_path = 'file_path_example' # str | 
-    file = None # bytearray | 
+    file_path = 'file_path_example' # str |
+    file = None # bytearray |
 
     try:
         # Upload File
@@ -330,8 +330,8 @@ with files_api_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_path** | **str**|  | 
- **file** | **bytearray**|  | 
+ **file_path** | **str**|  |
+ **file** | **bytearray**|  |
 
 ### Return type
 
@@ -353,4 +353,3 @@ No authorization required
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

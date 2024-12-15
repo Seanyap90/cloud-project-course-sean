@@ -13,25 +13,33 @@
 
 
 from __future__ import annotations
+
+import json
 import pprint
 import re  # noqa: F401
-import json
+from typing import Optional
 
-
-from typing import List, Optional
-from pydantic import BaseModel, Field, StrictStr, conlist
 from openapi_client.models.file_metadata import FileMetadata
+from pydantic import (
+    BaseModel,
+    Field,
+    StrictStr,
+    conlist,
+)
+
 
 class GetFilesResponse(BaseModel):
     """
     GetFilesResponse
     """
+
     files: conlist(FileMetadata) = Field(...)
     next_page_token: Optional[StrictStr] = Field(...)
     __properties = ["files", "next_page_token"]
 
     class Config:
         """Pydantic configuration"""
+
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -50,21 +58,18 @@ class GetFilesResponse(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
         if self.files:
             for _item in self.files:
                 if _item:
                     _items.append(_item.to_dict())
-            _dict['files'] = _items
+            _dict["files"] = _items
         # set to None if next_page_token (nullable) is None
         # and __fields_set__ contains the field
         if self.next_page_token is None and "next_page_token" in self.__fields_set__:
-            _dict['next_page_token'] = None
+            _dict["next_page_token"] = None
 
         return _dict
 
@@ -77,10 +82,12 @@ class GetFilesResponse(BaseModel):
         if not isinstance(obj, dict):
             return GetFilesResponse.parse_obj(obj)
 
-        _obj = GetFilesResponse.parse_obj({
-            "files": [FileMetadata.from_dict(_item) for _item in obj.get("files")] if obj.get("files") is not None else None,
-            "next_page_token": obj.get("next_page_token")
-        })
+        _obj = GetFilesResponse.parse_obj(
+            {
+                "files": [FileMetadata.from_dict(_item) for _item in obj.get("files")]
+                if obj.get("files") is not None
+                else None,
+                "next_page_token": obj.get("next_page_token"),
+            }
+        )
         return _obj
-
-

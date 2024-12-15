@@ -4,8 +4,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file_path** | **str** |  | 
-**message** | **str** |  | 
+**file_path** | **str** |  |
+**message** | **str** |  |
 
 ## Example
 
@@ -25,5 +25,3 @@ put_file_response_dict = put_file_response_instance.to_dict()
 put_file_response_from_dict = PutFileResponse.from_dict(put_file_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

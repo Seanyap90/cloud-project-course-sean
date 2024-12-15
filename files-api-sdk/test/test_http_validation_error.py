@@ -13,9 +13,9 @@
 
 
 import unittest
-import datetime
 
 from openapi_client.models.http_validation_error import HTTPValidationError  # noqa: E501
+
 
 class TestHTTPValidationError(unittest.TestCase):
     """HTTPValidationError unit test stubs"""
@@ -28,9 +28,9 @@ class TestHTTPValidationError(unittest.TestCase):
 
     def make_instance(self, include_optional) -> HTTPValidationError:
         """Test HTTPValidationError
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
+        include_option is a boolean, when False only required
+        params are included, when True both required and
+        optional params are included"""
         # uncomment below to create an instance of `HTTPValidationError`
         """
         model = HTTPValidationError()  # noqa: E501
@@ -40,8 +40,8 @@ class TestHTTPValidationError(unittest.TestCase):
                     openapi_client.models.validation_error.ValidationError(
                         loc = [
                             null
-                            ], 
-                        msg = '', 
+                            ],
+                        msg = '',
                         type = '', )
                     ]
             )
@@ -55,5 +55,6 @@ class TestHTTPValidationError(unittest.TestCase):
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

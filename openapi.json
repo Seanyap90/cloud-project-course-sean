@@ -1,8 +1,10 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "FastAPI",
-    "version": "0.1.0"
+    "title": "Files API",
+    "summary": "Store and retrieve files.",
+    "description": "![Maintained by](https://img.shields.io/badge/Maintained%20by-MLOps%20Club-05998B?style=for-the-badge)\n\n| Helpful Links | Notes |\n| --- | --- |\n| [Course Homepage](https://mlops-club.org) | |\n| [Course Student Portal](https://courses.mlops-club.org) | |\n| [Course Materials Repo](https://github.com/mlops-club/python-on-aws-course.git) | `mlops-club/python-on-aws-course` |\n| [Course Reference Project Repo](https://github.com/mlops-club/cloud-course-project.git) | `mlops-club/cloud-course-project` |\n| [FastAPI Documentation](https://fastapi.tiangolo.com/) | |\n| [Learn to make \"badges\"](https://shields.io/) | Example: <img alt=\"Awesome Badge\" src=\"https://img.shields.io/badge/Awesome-\ud83d\ude0e-blueviolet?style=for-the-badge\"> |\n",
+    "version": "v1"
   },
   "paths": {
     "/v1/files/{file_path}": {
@@ -320,16 +322,20 @@
         "properties": {
           "file_path": {
             "type": "string",
-            "title": "File Path"
+            "title": "File Path",
+            "description": "The path of the file.",
+            "example": "path/to/pyproject.toml"
           },
           "last_modified": {
             "type": "string",
             "format": "date-time",
-            "title": "Last Modified"
+            "title": "Last Modified",
+            "description": "The last modified date of the file."
           },
           "size_bytes": {
             "type": "integer",
-            "title": "Size Bytes"
+            "title": "Size Bytes",
+            "description": "The size of the file in bytes."
           }
         },
         "type": "object",
@@ -338,7 +344,8 @@
           "last_modified",
           "size_bytes"
         ],
-        "title": "FileMetadata"
+        "title": "FileMetadata",
+        "description": "Metadata of a file."
       },
       "GetFilesResponse": {
         "properties": {
@@ -366,7 +373,23 @@
           "files",
           "next_page_token"
         ],
-        "title": "GetFilesResponse"
+        "title": "GetFilesResponse",
+        "description": "Response model for `GET /v1/files`.",
+        "example": {
+          "files": [
+            {
+              "file_path": "path/to/pyproject.toml",
+              "last_modified": "2022-01-01T00:00:00Z",
+              "size_bytes": 512
+            },
+            {
+              "file_path": "path/to/Makefile",
+              "last_modified": "2022-01-01T00:00:00Z",
+              "size_bytes": 256
+            }
+          ],
+          "next_page_token": "next_page_token_example"
+        }
       },
       "HTTPValidationError": {
         "properties": {
@@ -385,11 +408,14 @@
         "properties": {
           "file_path": {
             "type": "string",
-            "title": "File Path"
+            "title": "File Path",
+            "description": "The path of the file.",
+            "example": "path/to/pyproject.toml"
           },
           "message": {
             "type": "string",
-            "title": "Message"
+            "title": "Message",
+            "description": "A message about the operation."
           }
         },
         "type": "object",
@@ -397,7 +423,8 @@
           "file_path",
           "message"
         ],
-        "title": "PutFileResponse"
+        "title": "PutFileResponse",
+        "description": "Response model for `PUT /v1/files/:file_path`."
       },
       "ValidationError": {
         "properties": {

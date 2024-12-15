@@ -27,6 +27,7 @@ from files_api.settings import Settings
 
 ROUTER = APIRouter(tags=["Files"])
 
+
 @ROUTER.put(
     "/v1/files/{file_path:path}",
     responses={
@@ -34,9 +35,10 @@ ROUTER = APIRouter(tags=["Files"])
         status.HTTP_201_CREATED: {"model": PutFileResponse},
     },
 )
-
 @ROUTER.put("/v1/files/{file_path:path}")
-async def upload_file(request: Request, file_path: str, file_content: UploadFile, response: Response) -> PutFileResponse:
+async def upload_file(
+    request: Request, file_path: str, file_content: UploadFile, response: Response
+) -> PutFileResponse:
     """Upload a file."""
     settings: Settings = request.app.state.settings
 
@@ -118,7 +120,6 @@ async def list_files(
         },
     },
 )
-
 async def get_file_metadata(request: Request, file_path: str, response: Response) -> Response:
     """
     Retrieve file metadata.
@@ -137,6 +138,7 @@ async def get_file_metadata(request: Request, file_path: str, response: Response
     response.headers["Last-Modified"] = get_object_response["LastModified"].strftime("%a, %d %b %Y %H:%M:%S GMT")
     response.status_code = status.HTTP_200_OK
     return response
+
 
 @ROUTER.get(
     "/v1/files/{file_path:path}",

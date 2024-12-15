@@ -13,17 +13,29 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
+
 import json
 import pprint
 import re  # noqa: F401
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    List,
+    Optional,
+    Union,
+)
 
-from typing import Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr, ValidationError, validator
-from typing import Union, Any, List, TYPE_CHECKING
-from pydantic import StrictStr, Field
+from pydantic import (
+    BaseModel,
+    Field,
+    StrictInt,
+    StrictStr,
+    ValidationError,
+    validator,
+)
 
 VALIDATIONERRORLOCINNER_ANY_OF_SCHEMAS = ["int", "str"]
+
 
 class ValidationErrorLocInner(BaseModel):
     """
@@ -53,7 +65,7 @@ class ValidationErrorLocInner(BaseModel):
         else:
             super().__init__(**kwargs)
 
-    @validator('actual_instance')
+    @validator("actual_instance")
     def actual_instance_must_validate_anyof(cls, v):
         instance = ValidationErrorLocInner.construct()
         error_messages = []
@@ -71,7 +83,10 @@ class ValidationErrorLocInner(BaseModel):
             error_messages.append(str(e))
         if error_messages:
             # no match
-            raise ValueError("No match found when setting the actual_instance in ValidationErrorLocInner with anyOf schemas: int, str. Details: " + ", ".join(error_messages))
+            raise ValueError(
+                "No match found when setting the actual_instance in ValidationErrorLocInner with anyOf schemas: int, str. Details: "
+                + ", ".join(error_messages)
+            )
         else:
             return v
 
@@ -105,7 +120,10 @@ class ValidationErrorLocInner(BaseModel):
 
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into ValidationErrorLocInner with anyOf schemas: int, str. Details: " + ", ".join(error_messages))
+            raise ValueError(
+                "No match found when deserializing the JSON string into ValidationErrorLocInner with anyOf schemas: int, str. Details: "
+                + ", ".join(error_messages)
+            )
         else:
             return instance
 
@@ -135,5 +153,3 @@ class ValidationErrorLocInner(BaseModel):
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.dict())
-
-

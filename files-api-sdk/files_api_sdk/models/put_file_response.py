@@ -13,24 +13,30 @@
 
 
 from __future__ import annotations
+
+import json
 import pprint
 import re  # noqa: F401
-import json
 
+from pydantic import (
+    BaseModel,
+    Field,
+    StrictStr,
+)
 
-
-from pydantic import BaseModel, Field, StrictStr
 
 class PutFileResponse(BaseModel):
     """
     PutFileResponse
     """
+
     file_path: StrictStr = Field(...)
     message: StrictStr = Field(...)
     __properties = ["file_path", "message"]
 
     class Config:
         """Pydantic configuration"""
+
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -49,10 +55,7 @@ class PutFileResponse(BaseModel):
 
     def to_dict(self):
         """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+        _dict = self.dict(by_alias=True, exclude={}, exclude_none=True)
         return _dict
 
     @classmethod
@@ -64,10 +67,5 @@ class PutFileResponse(BaseModel):
         if not isinstance(obj, dict):
             return PutFileResponse.parse_obj(obj)
 
-        _obj = PutFileResponse.parse_obj({
-            "file_path": obj.get("file_path"),
-            "message": obj.get("message")
-        })
+        _obj = PutFileResponse.parse_obj({"file_path": obj.get("file_path"), "message": obj.get("message")})
         return _obj
-
-
