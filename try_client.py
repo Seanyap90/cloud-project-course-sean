@@ -19,7 +19,8 @@ with files_api_sdk.ApiClient(configuration) as api_client:
 
     try:
         # Delete File
-        api_response = api_instance.delete_file_v1_files_file_path_delete(file_path)
+        #api_response = api_instance.delete_file_v1_files_file_path_delete(file_path)
+        api_response = api_instance.files_delete_file
         print("The response of FilesApi->delete_file_v1_files_file_path_delete:\n")
         pprint(api_response)
     except ApiException as e:

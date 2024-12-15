@@ -11,6 +11,14 @@ from files_api.errors import (
 from files_api.routes import ROUTER
 from files_api.settings import Settings
 
+def custom_generate_unique_id(route: APIRoute):
+    """
+    Generate prettier `operationId`s in the OpenAPI schema.
+
+    These become the function names in generated client SDKs.
+    """
+    return f"{route.tags[0]}-{route.name}"
+
 
 def create_app(settings: Settings | None = None) -> FastAPI:
     """Create a FastAPI application."""
@@ -47,14 +55,6 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.middleware("http")(handle_broad_exceptions)
 
     return app
-
-def custom_generate_unique_id(route: APIRoute):
-    """
-    Generate prettier `operationId`s in the OpenAPI schema.
-
-    These become the function names in generated client SDKs.
-    """
-    return f"{route.tags[0]}-{route.name}"
 
 
 if __name__ == "__main__":

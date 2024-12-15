@@ -72,11 +72,11 @@ with files_api_sdk.ApiClient(configuration) as api_client:
 
     try:
         # Delete File
-        api_response = api_instance.delete_file_v1_files_file_path_delete(file_path)
-        print("The response of FilesApi->delete_file_v1_files_file_path_delete:\n")
+        api_response = api_instance.files_delete_file(file_path)
+        print("The response of FilesApi->files_delete_file:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling FilesApi->delete_file_v1_files_file_path_delete: %s\n" % e)
+        print("Exception when calling FilesApi->files_delete_file: %s\n" % e)
 
 ```
 
@@ -86,11 +86,11 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FilesApi* | [**delete_file_v1_files_file_path_delete**](docs/FilesApi.md#delete_file_v1_files_file_path_delete) | **DELETE** /v1/files/{file_path} | Delete File
-*FilesApi* | [**get_file_metadata_v1_files_file_path_head**](docs/FilesApi.md#get_file_metadata_v1_files_file_path_head) | **HEAD** /v1/files/{file_path} | Get File Metadata
-*FilesApi* | [**get_file_v1_files_file_path_get**](docs/FilesApi.md#get_file_v1_files_file_path_get) | **GET** /v1/files/{file_path} | Get File
-*FilesApi* | [**list_files_v1_files_get**](docs/FilesApi.md#list_files_v1_files_get) | **GET** /v1/files | List Files
-*FilesApi* | [**upload_file_v1_files_file_path_put**](docs/FilesApi.md#upload_file_v1_files_file_path_put) | **PUT** /v1/files/{file_path} | Upload File
+*FilesApi* | [**files_delete_file**](docs/FilesApi.md#files_delete_file) | **DELETE** /v1/files/{file_path} | Delete File
+*FilesApi* | [**files_get_file**](docs/FilesApi.md#files_get_file) | **GET** /v1/files/{file_path} | Get File
+*FilesApi* | [**files_get_file_metadata**](docs/FilesApi.md#files_get_file_metadata) | **HEAD** /v1/files/{file_path} | Get File Metadata
+*FilesApi* | [**files_list_files**](docs/FilesApi.md#files_list_files) | **GET** /v1/files | List Files
+*FilesApi* | [**files_upload_file**](docs/FilesApi.md#files_upload_file) | **PUT** /v1/files/{file_path} | Upload File
 
 
 ## Documentation For Models

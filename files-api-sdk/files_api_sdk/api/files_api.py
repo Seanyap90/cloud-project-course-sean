@@ -46,14 +46,14 @@ class FilesApi:
         self.api_client = api_client
 
     @validate_arguments
-    def delete_file_v1_files_file_path_delete(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
+    def files_delete_file(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
         """Delete File  # noqa: E501
 
         Delete a file.  NOTE: DELETE requests MUST NOT return a body in the response.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_file_v1_files_file_path_delete(file_path, async_req=True)
+        >>> thread = api.files_delete_file(file_path, async_req=True)
         >>> result = thread.get()
 
         :param file_path: (required)
@@ -71,19 +71,19 @@ class FilesApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the delete_file_v1_files_file_path_delete_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the files_delete_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.delete_file_v1_files_file_path_delete_with_http_info(file_path, **kwargs)  # noqa: E501
+        return self.files_delete_file_with_http_info(file_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def delete_file_v1_files_file_path_delete_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+    def files_delete_file_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
         """Delete File  # noqa: E501
 
         Delete a file.  NOTE: DELETE requests MUST NOT return a body in the response.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.delete_file_v1_files_file_path_delete_with_http_info(file_path, async_req=True)
+        >>> thread = api.files_delete_file_with_http_info(file_path, async_req=True)
         >>> result = thread.get()
 
         :param file_path: (required)
@@ -135,7 +135,7 @@ class FilesApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method delete_file_v1_files_file_path_delete" % _key
+                    " to method files_delete_file" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -166,6 +166,8 @@ class FilesApi:
 
         _response_types_map = {
             '200': "object",
+            '404': None,
+            '204': None,
             '422': "HTTPValidationError",
         }
 
@@ -187,14 +189,14 @@ class FilesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def get_file_metadata_v1_files_file_path_head(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
-        """Get File Metadata  # noqa: E501
+    def files_get_file(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
+        """Get File  # noqa: E501
 
-        Retrieve file metadata.  Note: by convention, HEAD requests MUST NOT return a body in the response.  # noqa: E501
+        Retrieve a file.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_file_metadata_v1_files_file_path_head(file_path, async_req=True)
+        >>> thread = api.files_get_file(file_path, async_req=True)
         >>> result = thread.get()
 
         :param file_path: (required)
@@ -212,19 +214,19 @@ class FilesApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the get_file_metadata_v1_files_file_path_head_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the files_get_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.get_file_metadata_v1_files_file_path_head_with_http_info(file_path, **kwargs)  # noqa: E501
+        return self.files_get_file_with_http_info(file_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def get_file_metadata_v1_files_file_path_head_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
-        """Get File Metadata  # noqa: E501
+    def files_get_file_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+        """Get File  # noqa: E501
 
-        Retrieve file metadata.  Note: by convention, HEAD requests MUST NOT return a body in the response.  # noqa: E501
+        Retrieve a file.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.get_file_metadata_v1_files_file_path_head_with_http_info(file_path, async_req=True)
+        >>> thread = api.files_get_file_with_http_info(file_path, async_req=True)
         >>> result = thread.get()
 
         :param file_path: (required)
@@ -276,7 +278,7 @@ class FilesApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_file_metadata_v1_files_file_path_head" % _key
+                    " to method files_get_file" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -300,154 +302,14 @@ class FilesApi:
         _body_params = None
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            ['application/json', 'application/octet-stream'])  # noqa: E501
 
         # authentication setting
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
             '200': "object",
-            '422': "HTTPValidationError",
-        }
-
-        return self.api_client.call_api(
-            '/v1/files/{file_path}', 'HEAD',
-            _path_params,
-            _query_params,
-            _header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            response_types_map=_response_types_map,
-            auth_settings=_auth_settings,
-            async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=_params.get('_preload_content', True),
-            _request_timeout=_params.get('_request_timeout'),
-            collection_formats=_collection_formats,
-            _request_auth=_params.get('_request_auth'))
-
-    @validate_arguments
-    def get_file_v1_files_file_path_get(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
-        """Get File  # noqa: E501
-
-        Retrieve a file.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_file_v1_files_file_path_get(file_path, async_req=True)
-        >>> result = thread.get()
-
-        :param file_path: (required)
-        :type file_path: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _request_timeout: timeout setting for this request.
-               If one number provided, it will be total request
-               timeout. It can also be a pair (tuple) of
-               (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: object
-        """
-        kwargs['_return_http_data_only'] = True
-        if '_preload_content' in kwargs:
-            message = "Error! Please call the get_file_v1_files_file_path_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
-            raise ValueError(message)
-        return self.get_file_v1_files_file_path_get_with_http_info(file_path, **kwargs)  # noqa: E501
-
-    @validate_arguments
-    def get_file_v1_files_file_path_get_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
-        """Get File  # noqa: E501
-
-        Retrieve a file.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.get_file_v1_files_file_path_get_with_http_info(file_path, async_req=True)
-        >>> result = thread.get()
-
-        :param file_path: (required)
-        :type file_path: str
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the ApiResponse.data will
-                                 be set to none and raw_data will store the
-                                 HTTP response body without reading/decoding.
-                                 Default is True.
-        :type _preload_content: bool, optional
-        :param _return_http_data_only: response data instead of ApiResponse
-                                       object with status code, headers, etc
-        :type _return_http_data_only: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :type _content_type: string, optional: force content-type for the request
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(object, status_code(int), headers(HTTPHeaderDict))
-        """
-
-        _params = locals()
-
-        _all_params = [
-            'file_path'
-        ]
-        _all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth',
-                '_content_type',
-                '_headers'
-            ]
-        )
-
-        # validate the arguments
-        for _key, _val in _params['kwargs'].items():
-            if _key not in _all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_file_v1_files_file_path_get" % _key
-                )
-            _params[_key] = _val
-        del _params['kwargs']
-
-        _collection_formats = {}
-
-        # process the path parameters
-        _path_params = {}
-        if _params['file_path'] is not None:
-            _path_params['file_path'] = _params['file_path']
-
-
-        # process the query parameters
-        _query_params = []
-        # process the header parameters
-        _header_params = dict(_params.get('_headers', {}))
-        # process the form parameters
-        _form_params = []
-        _files = {}
-        # process the body parameter
-        _body_params = None
-        # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # authentication setting
-        _auth_settings = []  # noqa: E501
-
-        _response_types_map = {
-            '200': "object",
+            '404': None,
             '422': "HTTPValidationError",
         }
 
@@ -469,14 +331,156 @@ class FilesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def list_files_v1_files_get(self, page_size : Optional[conint(strict=True, le=100, ge=10)] = None, directory : Optional[StrictStr] = None, page_token : Optional[StrictStr] = None, **kwargs) -> GetFilesResponse:  # noqa: E501
+    def files_get_file_metadata(self, file_path : StrictStr, **kwargs) -> object:  # noqa: E501
+        """Get File Metadata  # noqa: E501
+
+        Retrieve file metadata.  Note: by convention, HEAD requests MUST NOT return a body in the response.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.files_get_file_metadata(file_path, async_req=True)
+        >>> result = thread.get()
+
+        :param file_path: (required)
+        :type file_path: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _request_timeout: timeout setting for this request.
+               If one number provided, it will be total request
+               timeout. It can also be a pair (tuple) of
+               (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: object
+        """
+        kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            message = "Error! Please call the files_get_file_metadata_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            raise ValueError(message)
+        return self.files_get_file_metadata_with_http_info(file_path, **kwargs)  # noqa: E501
+
+    @validate_arguments
+    def files_get_file_metadata_with_http_info(self, file_path : StrictStr, **kwargs) -> ApiResponse:  # noqa: E501
+        """Get File Metadata  # noqa: E501
+
+        Retrieve file metadata.  Note: by convention, HEAD requests MUST NOT return a body in the response.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.files_get_file_metadata_with_http_info(file_path, async_req=True)
+        >>> result = thread.get()
+
+        :param file_path: (required)
+        :type file_path: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(object, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        _params = locals()
+
+        _all_params = [
+            'file_path'
+        ]
+        _all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth',
+                '_content_type',
+                '_headers'
+            ]
+        )
+
+        # validate the arguments
+        for _key, _val in _params['kwargs'].items():
+            if _key not in _all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method files_get_file_metadata" % _key
+                )
+            _params[_key] = _val
+        del _params['kwargs']
+
+        _collection_formats = {}
+
+        # process the path parameters
+        _path_params = {}
+        if _params['file_path'] is not None:
+            _path_params['file_path'] = _params['file_path']
+
+
+        # process the query parameters
+        _query_params = []
+        # process the header parameters
+        _header_params = dict(_params.get('_headers', {}))
+        # process the form parameters
+        _form_params = []
+        _files = {}
+        # process the body parameter
+        _body_params = None
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # authentication setting
+        _auth_settings = []  # noqa: E501
+
+        _response_types_map = {
+            '200': "object",
+            '404': None,
+            '422': "HTTPValidationError",
+        }
+
+        return self.api_client.call_api(
+            '/v1/files/{file_path}', 'HEAD',
+            _path_params,
+            _query_params,
+            _header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            response_types_map=_response_types_map,
+            auth_settings=_auth_settings,
+            async_req=_params.get('async_req'),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
+            _request_timeout=_params.get('_request_timeout'),
+            collection_formats=_collection_formats,
+            _request_auth=_params.get('_request_auth'))
+
+    @validate_arguments
+    def files_list_files(self, page_size : Optional[conint(strict=True, le=100, ge=10)] = None, directory : Optional[StrictStr] = None, page_token : Optional[StrictStr] = None, **kwargs) -> GetFilesResponse:  # noqa: E501
         """List Files  # noqa: E501
 
         List files with pagination.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.list_files_v1_files_get(page_size, directory, page_token, async_req=True)
+        >>> thread = api.files_list_files(page_size, directory, page_token, async_req=True)
         >>> result = thread.get()
 
         :param page_size:
@@ -498,19 +502,19 @@ class FilesApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the list_files_v1_files_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the files_list_files_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.list_files_v1_files_get_with_http_info(page_size, directory, page_token, **kwargs)  # noqa: E501
+        return self.files_list_files_with_http_info(page_size, directory, page_token, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def list_files_v1_files_get_with_http_info(self, page_size : Optional[conint(strict=True, le=100, ge=10)] = None, directory : Optional[StrictStr] = None, page_token : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def files_list_files_with_http_info(self, page_size : Optional[conint(strict=True, le=100, ge=10)] = None, directory : Optional[StrictStr] = None, page_token : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """List Files  # noqa: E501
 
         List files with pagination.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.list_files_v1_files_get_with_http_info(page_size, directory, page_token, async_req=True)
+        >>> thread = api.files_list_files_with_http_info(page_size, directory, page_token, async_req=True)
         >>> result = thread.get()
 
         :param page_size:
@@ -568,7 +572,7 @@ class FilesApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method list_files_v1_files_get" % _key
+                    " to method files_list_files" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -626,20 +630,20 @@ class FilesApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def upload_file_v1_files_file_path_put(self, file_path : StrictStr, file : Union[StrictBytes, StrictStr], **kwargs) -> PutFileResponse:  # noqa: E501
+    def files_upload_file(self, file_path : StrictStr, file_content : Union[StrictBytes, StrictStr], **kwargs) -> PutFileResponse:  # noqa: E501
         """Upload File  # noqa: E501
 
         Upload a file.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.upload_file_v1_files_file_path_put(file_path, file, async_req=True)
+        >>> thread = api.files_upload_file(file_path, file_content, async_req=True)
         >>> result = thread.get()
 
         :param file_path: (required)
         :type file_path: str
-        :param file: (required)
-        :type file: bytearray
+        :param file_content: (required)
+        :type file_content: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -653,25 +657,25 @@ class FilesApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the upload_file_v1_files_file_path_put_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the files_upload_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.upload_file_v1_files_file_path_put_with_http_info(file_path, file, **kwargs)  # noqa: E501
+        return self.files_upload_file_with_http_info(file_path, file_content, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def upload_file_v1_files_file_path_put_with_http_info(self, file_path : StrictStr, file : Union[StrictBytes, StrictStr], **kwargs) -> ApiResponse:  # noqa: E501
+    def files_upload_file_with_http_info(self, file_path : StrictStr, file_content : Union[StrictBytes, StrictStr], **kwargs) -> ApiResponse:  # noqa: E501
         """Upload File  # noqa: E501
 
         Upload a file.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.upload_file_v1_files_file_path_put_with_http_info(file_path, file, async_req=True)
+        >>> thread = api.files_upload_file_with_http_info(file_path, file_content, async_req=True)
         >>> result = thread.get()
 
         :param file_path: (required)
         :type file_path: str
-        :param file: (required)
-        :type file: bytearray
+        :param file_content: (required)
+        :type file_content: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -701,7 +705,7 @@ class FilesApi:
 
         _all_params = [
             'file_path',
-            'file'
+            'file_content'
         ]
         _all_params.extend(
             [
@@ -720,7 +724,7 @@ class FilesApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method upload_file_v1_files_file_path_put" % _key
+                    " to method files_upload_file" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']
@@ -740,8 +744,8 @@ class FilesApi:
         # process the form parameters
         _form_params = []
         _files = {}
-        if _params['file'] is not None:
-            _files['file'] = _params['file']
+        if _params['file_content'] is not None:
+            _files['file_content'] = _params['file_content']
 
         # process the body parameter
         _body_params = None
@@ -761,6 +765,7 @@ class FilesApi:
 
         _response_types_map = {
             '200': "PutFileResponse",
+            '201': "PutFileResponse",
             '422': "HTTPValidationError",
         }
 

@@ -12,7 +12,7 @@
         ],
         "summary": "Upload File",
         "description": "Upload a file.",
-        "operationId": "upload_file_v1_files__file_path__put",
+        "operationId": "Files-upload_file",
         "parameters": [
           {
             "name": "file_path",
@@ -29,7 +29,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Body_upload_file_v1_files__file_path__put"
+                "$ref": "#/components/schemas/Body_Files-upload_file"
               }
             }
           }
@@ -44,6 +44,16 @@
                 }
               }
             }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutFileResponse"
+                }
+              }
+            },
+            "description": "Created"
           },
           "422": {
             "description": "Validation Error",
@@ -63,7 +73,7 @@
         ],
         "summary": "Get File Metadata",
         "description": "Retrieve file metadata.\n\nNote: by convention, HEAD requests MUST NOT return a body in the response.",
-        "operationId": "get_file_metadata_v1_files__file_path__head",
+        "operationId": "Files-get_file_metadata",
         "parameters": [
           {
             "name": "file_path",
@@ -82,7 +92,34 @@
               "application/json": {
                 "schema": {}
               }
+            },
+            "headers": {
+              "Content-Type": {
+                "description": "The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) of the file.",
+                "example": "text/plain",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Length": {
+                "description": "The size of the file in bytes.",
+                "example": 512,
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Last-Modified": {
+                "description": "The last modified date of the file.",
+                "example": "Thu, 01 Jan 2022 00:00:00 GMT",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
             }
+          },
+          "404": {
+            "description": "File not found for the given `file_path`."
           },
           "422": {
             "description": "Validation Error",
@@ -102,7 +139,55 @@
         ],
         "summary": "Get File",
         "description": "Retrieve a file.",
-        "operationId": "get_file_v1_files__file_path__get",
+        "operationId": "Files-get_file",
+        "parameters": [
+          {
+            "name": "file_path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The file content.",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found for the given `file_path`."
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Delete File",
+        "description": "Delete a file.\n\nNOTE: DELETE requests MUST NOT return a body in the response.",
+        "operationId": "Files-delete_file",
         "parameters": [
           {
             "name": "file_path",
@@ -123,44 +208,11 @@
               }
             }
           },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Files"
-        ],
-        "summary": "Delete File",
-        "description": "Delete a file.\n\nNOTE: DELETE requests MUST NOT return a body in the response.",
-        "operationId": "delete_file_v1_files__file_path__delete",
-        "parameters": [
-          {
-            "name": "file_path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "File Path"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+          "404": {
+            "description": "File not found for the given `file_path`."
+          },
+          "204": {
+            "description": "File deleted successfully."
           },
           "422": {
             "description": "Validation Error",
@@ -182,7 +234,7 @@
         ],
         "summary": "List Files",
         "description": "List files with pagination.",
-        "operationId": "list_files_v1_files_get",
+        "operationId": "Files-list_files",
         "parameters": [
           {
             "name": "page_size",
@@ -250,19 +302,19 @@
   },
   "components": {
     "schemas": {
-      "Body_upload_file_v1_files__file_path__put": {
+      "Body_Files-upload_file": {
         "properties": {
-          "file": {
+          "file_content": {
             "type": "string",
             "format": "binary",
-            "title": "File"
+            "title": "File Content"
           }
         },
         "type": "object",
         "required": [
-          "file"
+          "file_content"
         ],
-        "title": "Body_upload_file_v1_files__file_path__put"
+        "title": "Body_Files-upload_file"
       },
       "FileMetadata": {
         "properties": {
