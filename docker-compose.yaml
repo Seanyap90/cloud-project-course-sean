@@ -1,0 +1,42 @@
+# ship the fastapi metrics, traces, and logs to AWS
+
+services:
+
+  fastapi:
+    image: files-api
+    build:
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8000:8000"
+    environment:
+      AWS_ENDPOINT_URL: http://aws-mock:5001
+      S3_BUCKET_NAME: mocked-bucket
+      AWS_REGION: mock
+      AWS_ACCESS_KEY_ID: mock
+      AWS_SECRET_ACCESS_KEY: mock
+    volumes:
+      - ./:/app
+
+  aws-mock:
+    image: motoserver/moto:latest
+    command: "-p5001"
+    ports:
+      - "5001:5001"
+
+  logspout:
+    # Logs: uses the docker daemon to collect logs from fastapi's stdout and push to cloudwatch
+    image: mdsol/logspout:0.9.0
+    platform: linux/amd64
+    command: "cloudwatch://${AWS_REGION:-us-west-2}?NOEC2"
+    environment:
+      EXCLUDE_LABELS: "logspout=disable"
+      LOGSPOUT_GROUP: /aws/lambda/local-fastapi
+      # DEBUG: "1"  # enable this line for verbose logs to debug logspout
+      LOGSPOUT_STREAM: "{{.Name}}"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    # Generate the .env file with this command:
+    # aws configure export-credentials --profile $AWS_PROFILE --format env > .env
+    env_file:
+      - .env

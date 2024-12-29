@@ -8,8 +8,11 @@ from files_api.errors import (
     handle_broad_exceptions,
     handle_pydantic_validation_errors,
 )
+from files_api.monitoring.logger import inject_lambda_context__middleware
 from files_api.routes import ROUTER
 from files_api.settings import Settings
+from fastapi.exceptions import RequestValidationError
+from files_api.route_handler import RouteHandler
 
 
 def custom_generate_unique_id(route: APIRoute):
@@ -44,18 +47,29 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         """
         ),
         docs_url="/",  # its easier to find the docs when they live on the base url
+        root_path='/prod',
         generate_unique_id_function=custom_generate_unique_id,
     )
     app.state.settings = settings
 
+    app.router.route_class = RouteHandler
     app.include_router(ROUTER)
     app.add_exception_handler(
-        exc_class_or_status_code=pydantic.ValidationError,
+        exc_class_or_status_code=RequestValidationError,
         handler=handle_pydantic_validation_errors,
     )
     app.middleware("http")(handle_broad_exceptions)
+    app.middleware("http")(inject_lambda_context__middleware)
 
     return app
+
+def custom_generate_unique_id(route: APIRoute):
+    """
+    Generate prettier `operationId`s in the OpenAPI schema.
+
+    These become the function names in generated client SDKs.
+    """
+    return f"{route.tags[0]}-{route.name}"
 
 
 if __name__ == "__main__":

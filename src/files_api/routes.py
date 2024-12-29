@@ -1,3 +1,5 @@
+from loguru import logger
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -45,6 +47,10 @@ async def upload_file(
     file_bytes = await file_content.read()
 
     object_already_exists_at_path = object_exists_in_s3(settings.s3_bucket_name, object_key=file_path)
+    logger.debug(
+        "Object_already_exists_at_path: {exists}",
+        exists=object_already_exists_at_path
+    )
     if object_already_exists_at_path:
         message = f"Existing file updated at path: /{file_path}"
         response.status_code = status.HTTP_200_OK
@@ -52,12 +58,15 @@ async def upload_file(
         message = f"New file uploaded at path: /{file_path}"
         response.status_code = status.HTTP_201_CREATED
 
+    logger.debug("trying to upload file to s3: {file_path}", file_path=file_path)
     upload_s3_object(
         bucket_name=settings.s3_bucket_name,
         object_key=file_path,
         file_content=file_bytes,
         content_type=file_content.content_type,
     )
+
+    logger.info(message)
 
     return PutFileResponse(file_path=f"{file_path}", message=message)
 
@@ -69,6 +78,9 @@ async def list_files(
 ) -> GetFilesResponse:
     """List files with pagination."""
     settings: Settings = request.app.state.settings
+    logger.debug("fetching files from s3: {dir}", dir=query_params.directory)
+    logger.info(query_params.model_dump())
+
     if query_params.page_token:
         files, next_page_token = fetch_s3_objects_using_page_token(
             bucket_name=settings.s3_bucket_name,
@@ -120,6 +132,7 @@ async def list_files(
         },
     },
 )
+
 async def get_file_metadata(request: Request, file_path: str, response: Response) -> Response:
     """
     Retrieve file metadata.

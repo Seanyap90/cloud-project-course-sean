@@ -1,0 +1,181 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: REST API Gateway with endpoints protected by API Key, IAM, and both.
+
+Resources:
+  # API Gateway Rest API
+  ApiGatewayRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: AuthProtectedAPI
+
+  # API Gateway Resource for /auth
+  AuthResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt ApiGatewayRestApi.RootResourceId
+      PathPart: auth
+      RestApiId: !Ref ApiGatewayRestApi
+
+  # API Gateway Resource for /auth/api-key
+  ApiKeyResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !Ref AuthResource
+      PathPart: api-key
+      RestApiId: !Ref ApiGatewayRestApi
+
+  # API Gateway Resource for /auth/iam-sigv4
+  IamSigV4Resource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !Ref AuthResource
+      PathPart: iam-sigv4
+      RestApiId: !Ref ApiGatewayRestApi
+
+  # API Gateway Resource for /auth/iam-sigv4-and-api-key
+  IamSigV4AndApiKeyResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !Ref AuthResource
+      PathPart: iam-sigv4-and-api-key
+      RestApiId: !Ref ApiGatewayRestApi
+  
+  ApiGatewayInvokePermissionApiKey:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ExistingLambdaFunctionName
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayRestApi}/*/GET/auth/api-key"
+
+  # Permission for API Gateway to invoke Lambda for /auth/iam-sigv4
+  ApiGatewayInvokePermissionIamSigV4:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ExistingLambdaFunctionName
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayRestApi}/*/GET/auth/iam-sigv4"
+
+
+  # Method for /auth/api-key (Protected by API Key)
+  ApiKeyMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      ApiKeyRequired: true
+      HttpMethod: GET
+      ResourceId: !Ref ApiKeyResource
+      RestApiId: !Ref ApiGatewayRestApi
+      Integration:
+        Type: MOCK
+        IntegrationHttpMethod: POST
+        RequestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseTemplates:
+              application/json: "{\"message\": \"success\"}"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+
+  # Method for /auth/iam-sigv4 (Protected by IAM)
+  IamSigV4Method:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: AWS_IAM
+      ApiKeyRequired: false
+      HttpMethod: GET
+      ResourceId: !Ref IamSigV4Resource
+      RestApiId: !Ref ApiGatewayRestApi
+      Integration:
+        Type: MOCK
+        IntegrationHttpMethod: POST
+        RequestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseTemplates:
+              application/json: "{\"message\": \"success\"}"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+
+  # Method for /auth/iam-sigv4-and-api-key (Protected by IAM and API Key)
+  IamSigV4AndApiKeyMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: AWS_IAM
+      ApiKeyRequired: true
+      HttpMethod: GET
+      ResourceId: !Ref IamSigV4AndApiKeyResource
+      RestApiId: !Ref ApiGatewayRestApi
+      Integration:
+        Type: MOCK
+        IntegrationHttpMethod: POST
+        RequestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseTemplates:
+              application/json: "{\"message\": \"success\"}"
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+
+  # API Gateway Deployment
+  ApiGatewayDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: [ApiKeyMethod, IamSigV4Method, IamSigV4AndApiKeyMethod]
+    Properties:
+      RestApiId: !Ref ApiGatewayRestApi
+      StageName: prod
+
+  # Usage Plan for API Key
+  ApiUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    DependsOn: ApiGatewayDeployment
+    Properties:
+      UsagePlanName: Unlimited
+      ApiStages:
+        - ApiId: !Ref ApiGatewayRestApi
+          Stage: prod
+      Throttle:
+        BurstLimit: 1000
+        RateLimit: 5000
+
+  # API Key
+  ApiKey:
+    Type: AWS::ApiGateway::ApiKey
+    DependsOn: ApiUsagePlan
+    Properties:
+      Enabled: true
+      Name: MyApiKey
+      StageKeys:
+        - RestApiId: !Ref ApiGatewayRestApi
+          StageName: prod
+
+  # Link API Key to Usage Plan
+  LinkUsagePlanApiKey:
+    Type: "AWS::ApiGateway::UsagePlanKey"
+    Properties:
+      KeyId: !Ref ApiKey
+      KeyType: API_KEY
+      UsagePlanId: !Ref ApiUsagePlan
+
+Outputs:
+  ApiGatewayUrl:
+    Description: "URL of the API Gateway"
+    Value: !Sub "https://${ApiGatewayRestApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+    Export:
+      Name: ApiGatewayUrl
+
+  ApiKeyId:
+    Description: "API Key to access the protected endpoints"
+    Value: !Ref ApiKey
+    Export:
+      Name: ApiKeyId
